@@ -10,14 +10,8 @@ class Node {
         this.weight = weight
     }
 
-    def getNeighbors(Board board, obstacles) {
-        def neighbors = []
-        position.generateNeighbors().each { neighbor ->
-            if(board.isValid(neighbor) && obstacles.every { it.isValid(neighbor) }) {
-                neighbors.add(neighbor)
-            }
-        }
-        return neighbors
+    def getNeighborsPositions() {
+        return position.generateNeighbors()
     }
 
     def updateWeight(previousNode) {

@@ -16,13 +16,13 @@ class MinPathResolverSpec extends Specification {
 
     void setup() {
         this.minPathResolver = new MinPathResolver()
-        this.board = new Board(columns: 8, rows: 8)
         this.seeker = new Position(2, 1)
         this.coffee = new Position(7, 2)
         this.snacks = new Position(2, 7)
         this.boss = new Obstacle(new Position(3,3), new Position(5,4))
         this.girls = new Rectangle(new Position(6, 6), new Position(7, 7))
         this.obstacles = [boss]
+        this.board = new Board(8, 8, this.obstacles)
     }
 
     void "example test _ from initial position to coffee"() {
@@ -31,7 +31,7 @@ class MinPathResolverSpec extends Specification {
         def finalPosition = this.coffee
 
         when:
-        def result = minPathResolver.calculateMinPath(board, initialPosition, finalPosition, obstacles)
+        def result = minPathResolver.calculateMinPath(board, initialPosition, finalPosition)
 
         then:
         println "Size: ${result.size()} - path: ${result}"
@@ -44,7 +44,7 @@ class MinPathResolverSpec extends Specification {
         def finalPosition = this.snacks
 
         when:
-        def result = minPathResolver.calculateMinPath(board, initialPosition, finalPosition, obstacles)
+        def result = minPathResolver.calculateMinPath(board, initialPosition, finalPosition)
 
         then:
         println "Size: ${result.size()} - path: ${result}"
@@ -59,11 +59,28 @@ class MinPathResolverSpec extends Specification {
         def rectangleFinalPosition = this.girls
 
         when:
-        def result = minPathResolver.calculateMinPath(board, initialPosition, rectangleFinalPosition, obstacles)
+        def result = minPathResolver.calculateMinPath(board, initialPosition, rectangleFinalPosition)
 
         then:
         println "Size: ${result.size()} - path: ${result}"
         result == [p(2,7),p(3,7),p(4,7),p(5,7),p(6,7)]
+    }
+
+    void "unsolvable graph must throw exception"() {
+        given:
+        def minPathResolver = new MinPathResolver()
+        def seeker = new Position(1, 1)
+        def coffee = new Position(3, 3)
+        def boss = new Obstacle(new Position(1,2), new Position(3,2)) // al row 2 is the boss, no way to go through
+        def obstacles = [boss]
+        def board = new Board(3, 3, obstacles)
+
+        when:
+        minPathResolver.calculateMinPath(board, seeker, coffee)
+
+        then:
+        def e = thrown(RuntimeException)
+        e.message == "We could not find a solution!! Are you sure this problem is solvable???"
     }
 
     Position p(column, row) {

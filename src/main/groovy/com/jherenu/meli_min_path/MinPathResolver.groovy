@@ -4,45 +4,44 @@ class MinPathResolver {
 
     public static final int INITIAL_WEIGHT = 0
 
-    def calculateMinPath(Board board, Position initialPosition, Perimetreable finalPosition, Collection<Obstacle> obstacles) {
+    def calculateMinPath(Board board, Position initialPosition, Perimetreable finalPosition) {
         return finalPosition.getPerimeterPositions().collect {
-            doCalculateMinPath(board, initialPosition, it, obstacles)
+            doCalculateMinPath(board, initialPosition, it)
         }?.min { it.size() }
     }
 
-    private def doCalculateMinPath(Board board, Position initialPosition, Position finalPosition, Collection<Obstacle> obstacles) {
-        def visitedPositions = []
-        def unvisitedPositions = board.getNodes()
-
-        def currentPosition = createInitialNodeFromPosition(initialPosition)
-        while(!unvisitedPositions.isEmpty()) {
-            def neighbors = currentPosition.getNeighbors(board, obstacles)
+    private def doCalculateMinPath(Board board, Position initialPosition, Position finalPosition) {
+        def currentNode = createInitialNodeFromPosition(initialPosition)
+        while(board.hasUnvisitedNodes()) {
+            def neighbors = board.getValidNeighborsForNode(currentNode)
             neighbors.each {
-                def neighbor = unvisitedPositions.find { unvisited -> unvisited.isSamePosition(it) }
-                neighbor?.updateWeight(currentPosition)
+                board.updateUnvisitedNodeWeightInPositionFromNode(it, currentNode)
             }
-            unvisitedPositions.remove(currentPosition)
-            visitedPositions.add(currentPosition)
-            currentPosition = unvisitedPositions.min { it.weight }
+
+            board.markNodeAsVisited(currentNode)
+            currentNode = board.getMinimumUnvisitedNode()
         }
 
-        def processedFinalPosition = visitedPositions.find { visited -> visited.isSamePosition(finalPosition) }
-        def result = generateMinPathFromFinalToInitial(processedFinalPosition).reverse()
-
-        return result
+        def processedFinalNode = board.getVisitedNodeFromPosition(finalPosition)
+        return generateMinPathFromFinalToInitial(processedFinalNode, initialPosition).reverse()
     }
 
     private Node createInitialNodeFromPosition(Position initialPosition) {
         new Node(initialPosition, INITIAL_WEIGHT)
     }
 
-    def generateMinPathFromFinalToInitial(finalPosition) {
+    def generateMinPathFromFinalToInitial(finalNode, initialPosition) {
         def result = []
-        def currentPosition = finalPosition
+        def currentPosition = finalNode
         while(currentPosition) {
             result.add(currentPosition.getPosition())
             currentPosition = currentPosition.previousPosition
         }
-        return result
+
+        if(result.find { it == initialPosition }) {
+            return result
+        } else {
+            throw new RuntimeException("We could not find a solution!! Are you sure this problem is solvable???")
+        }
     }
 }
