@@ -11,31 +11,38 @@ class MinPathResolver {
     }
 
     private def doCalculateMinPath(Board board, Position initialPosition, Position finalPosition) {
-        def currentNode = createInitialNodeFromPosition(initialPosition)
-        while(board.hasUnvisitedNodes()) {
+        board.updateUnvisitedNodeWeightInPosition(initialPosition, INITIAL_WEIGHT)
+        while(minPathNotFound(board, finalPosition)) {
+            def currentNode = board.getMinimumUnvisitedNode()
             def neighbors = board.getValidNeighborsForNode(currentNode)
             neighbors.each {
                 board.updateUnvisitedNodeWeightInPositionFromNode(it, currentNode)
             }
-
             board.markNodeAsVisited(currentNode)
-            currentNode = board.getMinimumUnvisitedNode()
         }
 
         def processedFinalNode = board.getVisitedNodeFromPosition(finalPosition)
         return generateMinPathFromFinalToInitial(processedFinalNode, initialPosition).reverse()
     }
 
-    private Node createInitialNodeFromPosition(Position initialPosition) {
-        new Node(initialPosition, INITIAL_WEIGHT)
+    private boolean minPathNotFound(Board board, finalPosition) {
+        return !minPathFound(board, finalPosition)
     }
 
-    def generateMinPathFromFinalToInitial(finalNode, initialPosition) {
+    boolean minPathFound(Board board, finalPosition) {
+        return finalPositionHasBeenVisited(board, finalPosition) || board.everyUnvisitedNodesHaveInfinityWeight()
+    }
+
+    private Object finalPositionHasBeenVisited(Board board, finalPosition) {
+        board.getVisitedNodeFromPosition(finalPosition)
+    }
+
+    private def generateMinPathFromFinalToInitial(finalNode, initialPosition) {
         def result = []
-        def currentPosition = finalNode
-        while(currentPosition) {
-            result.add(currentPosition.getPosition())
-            currentPosition = currentPosition.previousPosition
+        def currentNode = finalNode
+        while(currentNode) {
+            result.add(currentNode.getPosition())
+            currentNode = currentNode.previousPosition
         }
 
         if(result.find { it == initialPosition }) {

@@ -2,7 +2,6 @@ package com.jherenu.meli_min_path
 
 class Board {
 
-    static final MAX_VALUE = Integer.MAX_VALUE
     int columns
     int rows
     def obstacles
@@ -21,14 +20,10 @@ class Board {
         def positions = []
         (1..columns).each { i->
             (1..rows).each { j ->
-                positions.add(new Node(new Position(i, j), MAX_VALUE))
+                positions.add(new Node(new Position(i, j), Node.INFINITY_WEIGHT))
             }
         }
         return positions
-    }
-
-    boolean hasUnvisitedNodes() {
-        return !this.unvisitedNodes.isEmpty()
     }
 
     def getValidNeighborsForNode(Node node) {
@@ -43,7 +38,12 @@ class Board {
 
     def updateUnvisitedNodeWeightInPositionFromNode(Position position, parentNode) {
         def unvisitedNode = this.unvisitedNodes.find { unvisited -> unvisited.isSamePosition(position) }
-        unvisitedNode?.updateWeight(parentNode)
+        unvisitedNode?.updateWeightFromNode(parentNode)
+    }
+
+    def updateUnvisitedNodeWeightInPosition(position, weight) {
+        def unvisitedNode = this.unvisitedNodes.find { unvisited -> unvisited.isSamePosition(position) }
+        unvisitedNode?.updateWeight(weight)
     }
 
     def markNodeAsVisited(node) {
@@ -57,5 +57,9 @@ class Board {
 
     def getVisitedNodeFromPosition(Position position) {
         this.visitedNodes.find { visited -> visited.isSamePosition(position) }
+    }
+
+    def everyUnvisitedNodesHaveInfinityWeight() {
+        return this.unvisitedNodes.every { it.hasInfinityWeight() }
     }
 }

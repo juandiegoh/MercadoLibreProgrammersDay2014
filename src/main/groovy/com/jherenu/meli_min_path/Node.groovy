@@ -1,11 +1,13 @@
 package com.jherenu.meli_min_path
 
 class Node {
+    public static final INFINITY_WEIGHT = Integer.MAX_VALUE
+
     Position position
     Integer weight
     Node previousPosition
 
-    def Node(position, int weight = Integer.MAX_VALUE) {
+    def Node(position, int weight = INFINITY_WEIGHT) {
         this.position = position
         this.weight = weight
     }
@@ -14,17 +16,24 @@ class Node {
         return position.generateNeighbors()
     }
 
-    def updateWeight(previousNode) {
-        if(weight > previousNode.weight+1) {
-            this.weight = previousNode.weight+1
+    def updateWeightFromNode(previousNode) {
+        if (weight > previousNode.weight + 1) {
+            this.weight = previousNode.weight + 1
             this.previousPosition = previousNode
         }
+    }
+
+    def updateWeight(newWeight) {
+        this.weight = newWeight
     }
 
     boolean isSamePosition(position) {
         this.position.equals(position)
     }
 
+    boolean hasInfinityWeight() {
+        this.weight == INFINITY_WEIGHT
+    }
 
     public boolean equals(other) {
         if (other == null) return false
