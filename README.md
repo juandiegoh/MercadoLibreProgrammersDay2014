@@ -13,12 +13,12 @@ Dada una posición de inicio (X0,Y0), crear una función caminoAChicas(N,M,X0,Y0
 Mapa de ejemplo
 ===============
 
-caminoAChicas(8,8,2,1,7,2,2,7,6,6,7,7,3,3,5,4)
+`caminoAChicas(8,8,2,1,7,2,2,7,6,6,7,7,3,3,5,4)`
 
 ![Screenshot](https://github.com/juandiegoh/MercadoLibreProgrammersDay2014/raw/master/resources/images/print1.png)
 
 (Ejemplo en la hoja siguiente)
-Nota: Si sos mujer, la función sería: caminoAChicos(N,M,X0,Y0,X1,Y1,X2,Y2,X3,Y3,X4,Y4,X5,Y5,X6,Y6)
+Nota: Si sos mujer, la función sería: `caminoAChicos(N,M,X0,Y0,X1,Y1,X2,Y2,X3,Y3,X4,Y4,X5,Y5,X6,Y6)`
 
 Debería devolver
 ================
@@ -28,7 +28,7 @@ Debería devolver
 Formato de Salida
 =================
 
-[(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(7,2),(7,3),(7,4),(7,5),(6,5),(5,5),(4,5),(3,5),(2,5),(2,6),(2,7),(3,7),(4,7),(5,7),(6,7)],21
+`[(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(7,2),(7,3),(7,4),(7,5),(6,5),(5,5),(4,5),(3,5),(2,5),(2,6),(2,7),(3,7),(4,7),(5,7),(6,7)],21`
 
 Devolver un String en donde la primera parte es un array con las coordenadas y el número final (Ej: 21) es la cantidad de pasos al objetivo.
 
