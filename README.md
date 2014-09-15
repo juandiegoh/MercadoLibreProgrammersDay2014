@@ -15,7 +15,7 @@ Mapa de ejemplo
 
 caminoAChicas(8,8,2,1,7,2,2,7,6,6,7,7,3,3,5,4)
 
-![Screenshot](https://github.com/juandiegoh/MercadoLibreProgrammersDay2014/raw/master/resources/images/print1.jpg)
+![Screenshot](https://github.com/juandiegoh/MercadoLibreProgrammersDay2014/raw/master/resources/images/print1.png)
 
 (Ejemplo en la hoja siguiente)
 Nota: Si sos mujer, la función sería: caminoAChicos(N,M,X0,Y0,X1,Y1,X2,Y2,X3,Y3,X4,Y4,X5,Y5,X6,Y6)
@@ -23,7 +23,7 @@ Nota: Si sos mujer, la función sería: caminoAChicos(N,M,X0,Y0,X1,Y1,X2,Y2,X3,Y
 Debería devolver
 ================
 
-![Screenshot](https://github.com/juandiegoh/MercadoLibreProgrammersDay2014/raw/master/resources/images/print2.jpg)
+![Screenshot](https://github.com/juandiegoh/MercadoLibreProgrammersDay2014/raw/master/resources/images/print2.png)
 
 Formato de Salida
 =================
