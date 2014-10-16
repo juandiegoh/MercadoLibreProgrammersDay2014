@@ -32,3 +32,8 @@ Formato de Salida
 
 Devolver un String en donde la primera parte es un array con las coordenadas y el número final (Ej: 21) es la cantidad de pasos al objetivo.
 
+Cómo correrl?
+==============
+
+Cambiar los parametros de caminoAChicas en la clase Main y ver el resultado.
+Correr `gradle run`
